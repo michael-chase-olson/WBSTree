@@ -11,6 +11,7 @@ namespace WBSTree
         static void Main(string[] args)
         {
             var tree = CreateStaticTestTree();
+            Console.WriteLine("Printing Original Tree");
             PrintTree(tree);
 
             Console.WriteLine();
@@ -20,6 +21,7 @@ namespace WBSTree
             var serialized = serializer.Serialize(tree);
             var deserialized = serializer.Deserialize(serialized);
 
+            Console.WriteLine("Printing Tree After Serialization/Deserialization");
             PrintTree(deserialized);
 
             Console.ReadLine();
@@ -32,25 +34,25 @@ namespace WBSTree
             Print(tree.RootNode, indent, tree.RootNode.Children.Any());
         }
 
-        private static void Print(IdNode node, string indent, bool last)
+        private static void Print(IdNode node, string printString, bool last)
         {
-            Console.Write(indent);
+            Console.Write(printString);
 
             if (last)
             {
                 Console.Write(@"\-");
-                indent += "  ";
+                printString += "  ";
             }
             else
             {
                 Console.Write("|-");
-                indent += " ";
+                printString += " ";
             }
             Console.WriteLine(node.Id);
 
             for (int i = 0; i < node.Children.Count; i++)
             {
-                Print(node.Children[i], indent, i == node.Children.Count - 1);
+                Print(node.Children[i], printString, i == node.Children.Count - 1);
             }
         }
 
