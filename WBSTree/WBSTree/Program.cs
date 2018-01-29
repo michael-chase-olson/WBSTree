@@ -12,7 +12,7 @@ namespace WBSTree
     {
         static void Main(string[] args)
         {
-            var tree = CreateTestTree();
+            var tree = CreateStaticTestTree();
             PrintTree(tree);
 
             Console.WriteLine();
@@ -60,29 +60,33 @@ namespace WBSTree
         {
             var tree = new IdTree();
 
-            int idCounter = 1;
-            int nodeCounter = 0;
-            tree.RootNode = CreateNode(idCounter, nodeCounter, 5);
+            tree.RootNode = CreateNode(5);
 
             return tree;
         }
 
-        private static IdNode CreateNode(int idCounter, int nodeCounter, int nodeMax, IdNode parent = null)
+        private static int _nodeCount = 0;
+        private static int _idCount = 1;
+
+        private static IdNode CreateNode(int nodeMax, IdNode parent = null, bool isLeaf = false)
         {
-            var node = new IdNode{Id = idCounter++};
+            var node = new IdNode{Id = _idCount++ };
 
             if (parent != null)
                 node.Parent = parent;
 
-            if (nodeCounter == nodeMax)
-                return node;
+            if (_nodeCount == nodeMax)
+                return null;
 
-            nodeCounter++;
-            var random = new Random();
-            var childrenNodes = random.Next(0, 3);
-            for (int i = 0; i < childrenNodes; i++)
+            _nodeCount++;
+
+            for (int i = 0; i <= 2; i++)
             {
-                node.Children.Add(CreateNode(idCounter, nodeCounter, nodeMax, node));
+                if (_nodeCount != nodeMax)
+                {
+                    var childNode = isLeaf ? new IdNode{Id = _idCount++, Parent = node} : CreateNode( nodeMax, node, true);
+                    node.Children.Add(childNode);
+                }
             }
 
             return node;
@@ -120,7 +124,17 @@ namespace WBSTree
                 new IdNode{Id = 11, Parent = fourthNode},
             };
 
+            var forthNodeChildWithChildren = new IdNode {Id = 12, Parent = fourthNode};
+            forthNodeChildWithChildren.Children = new List<IdNode>
+            {
+                new IdNode{Id = 13, Parent = forthNodeChildWithChildren},
+                new IdNode{Id = 14, Parent = forthNodeChildWithChildren}
+            };
+            fourthNode.Children.Add(forthNodeChildWithChildren);
+
             rootNode.Children.Add(fourthNode);
+
+            rootNode.Children.Add(new IdNode{Id = 15, Parent = rootNode});
 
             tree.RootNode = rootNode;
 
