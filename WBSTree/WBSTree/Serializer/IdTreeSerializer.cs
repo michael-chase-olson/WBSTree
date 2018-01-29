@@ -55,8 +55,11 @@ namespace WBSTree.Serializer
 
         private static void DeserializeFromRoot(BinaryReader binaryReader, IdTree tree)
         {
-            var parentId = binaryReader.ReadInt32();
-            var currentNodeId = binaryReader.ReadInt32();
+            var parentId = binaryReader.BaseStream.Position != binaryReader.BaseStream.Length ? binaryReader.ReadInt32() : -1;
+            var currentNodeId = binaryReader.BaseStream.Position != binaryReader.BaseStream.Length ? binaryReader.ReadInt32() : -1;
+
+            if (parentId == -1 || currentNodeId == -1) 
+                return;
 
             var node = new IdNode { Id = currentNodeId };
 

@@ -12,5 +12,7 @@ namespace WBSTree.Tree
         public int Id { get; set; }
         public IdNode Parent { get; set; }
         public List<IdNode> Children { get; set; }
+
+
     }
 }
