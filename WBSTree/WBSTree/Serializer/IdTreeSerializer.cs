@@ -91,32 +91,12 @@ namespace WBSTree.Serializer
 
         private static void AddChildToNonRootParent(int parentId, IdNode node, IdTree tree)
         {
-            var parentNode = FindParentIdNode(parentId, tree);
+            var parentNode = tree.FindNode(parentId);
             if (parentNode == null)
                 return;
 
             node.Parent = parentNode;
             parentNode.Children.Add(node);
-        }
-
-        private static IdNode FindParentIdNode(int idOfParent, IdTree tree)
-        {
-            var searchQueue = new Queue<IdNode>();
-            searchQueue.Enqueue(tree.RootNode);
-
-            while (searchQueue.Count > 0)
-            {
-                var current = searchQueue.Dequeue();
-                if (current.Id == idOfParent)
-                    return current;
-
-                foreach (var child in current.Children)
-                {
-                    searchQueue.Enqueue(child);
-                }
-            }
-
-            return null;
         }
 
         private static int ReadInt(BinaryReader reader)
