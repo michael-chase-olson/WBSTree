@@ -56,42 +56,6 @@ namespace WBSTree
             }
         }
 
-        private static IdTree CreateTestTree()
-        {
-            var tree = new IdTree();
-
-            tree.RootNode = CreateNode(5);
-
-            return tree;
-        }
-
-        private static int _nodeCount = 0;
-        private static int _idCount = 1;
-
-        private static IdNode CreateNode(int nodeMax, IdNode parent = null, bool isLeaf = false)
-        {
-            var node = new IdNode{Id = _idCount++ };
-
-            if (parent != null)
-                node.Parent = parent;
-
-            if (_nodeCount == nodeMax)
-                return null;
-
-            _nodeCount++;
-
-            for (int i = 0; i <= 2; i++)
-            {
-                if (_nodeCount != nodeMax)
-                {
-                    var childNode = isLeaf ? new IdNode{Id = _idCount++, Parent = node} : CreateNode( nodeMax, node, true);
-                    node.Children.Add(childNode);
-                }
-            }
-
-            return node;
-        }
-
         private static IdTree CreateStaticTestTree()
         {
             var tree = new IdTree();
