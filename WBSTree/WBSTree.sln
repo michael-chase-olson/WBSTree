@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WBSTree", "WBSTree\WBSTree.csproj", "{889CE04D-367B-4C90-9F55-E7CF804D0F8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WBSTreeView", "WBSTreeView\WBSTreeView.csproj", "{FB87BF8C-78E5-45DC-857F-DBB251F72979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{889CE04D-367B-4C90-9F55-E7CF804D0F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{889CE04D-367B-4C90-9F55-E7CF804D0F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{889CE04D-367B-4C90-9F55-E7CF804D0F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{889CE04D-367B-4C90-9F55-E7CF804D0F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB87BF8C-78E5-45DC-857F-DBB251F72979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB87BF8C-78E5-45DC-857F-DBB251F72979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB87BF8C-78E5-45DC-857F-DBB251F72979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB87BF8C-78E5-45DC-857F-DBB251F72979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
