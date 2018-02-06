@@ -24,6 +24,8 @@ namespace WBSTree
             Console.WriteLine("Printing Tree After Serialization/Deserialization");
             PrintTree(deserialized);
 
+            Console.WriteLine($"Time: {serializer.GetTime()}");
+
             Console.ReadLine();
         }
 
@@ -60,9 +62,9 @@ namespace WBSTree
         {
             var tree = new IdTree();
 
-            var rootNode = new IdNode {Id = 1};
+            var rootNode = new IdNode { Id = 1 };
 
-            var secondNode = new IdNode {Id = 2, Parent = rootNode};
+            var secondNode = new IdNode { Id = 2, Parent = rootNode };
             secondNode.Children = new List<IdNode>
             {
                 new IdNode{Id = 5, Parent = secondNode},
@@ -88,7 +90,7 @@ namespace WBSTree
                 new IdNode{Id = 11, Parent = fourthNode},
             };
 
-            var forthNodeChildWithChildren = new IdNode {Id = 12, Parent = fourthNode};
+            var forthNodeChildWithChildren = new IdNode { Id = 12, Parent = fourthNode };
             forthNodeChildWithChildren.Children = new List<IdNode>
             {
                 new IdNode{Id = 13, Parent = forthNodeChildWithChildren},
@@ -98,7 +100,7 @@ namespace WBSTree
 
             rootNode.Children.Add(fourthNode);
 
-            rootNode.Children.Add(new IdNode{Id = 15, Parent = rootNode});
+            rootNode.Children.Add(new IdNode { Id = 15, Parent = rootNode });
 
             tree.RootNode = rootNode;
 

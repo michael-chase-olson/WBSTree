@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using WBSTree.Tree;
 
 namespace WBSTree.Serializer
@@ -35,8 +37,17 @@ namespace WBSTree.Serializer
             }
         }
 
+        public double GetTime()
+        {
+            return _watch.ElapsedMilliseconds;
+        }
+
+        private readonly Stopwatch _watch = new Stopwatch();
+
         public IdTree Deserialize(byte[] treeBytes)
         {
+            _watch.Reset();
+            _watch.Start();
             var deserializedTree = new IdTree();
 
             using (var memoryStream = new MemoryStream(treeBytes))
@@ -45,25 +56,30 @@ namespace WBSTree.Serializer
                 {
                     var rootnode = new IdNode { Id = binaryReader.ReadInt32() };
                     deserializedTree.RootNode = rootnode;
+                    _deserializedNodes.Add(rootnode.Id, rootnode);
                     DeserializeIntoTree(binaryReader, deserializedTree);
 
                 }
             }
+            _watch.Stop();
 
             return deserializedTree;
         }
 
-        private static void DeserializeIntoTree(BinaryReader binaryReader, IdTree tree)
+        private readonly Dictionary<int, IdNode> _deserializedNodes = new Dictionary<int, IdNode>();
+
+        private void DeserializeIntoTree(BinaryReader binaryReader, IdTree tree)
         {
             //nodes need to be deserialized in the same order they were serialized.  In this case, the parent node id is serialized first
             //followed by the current node id.  Only the root node has no parent.
             var parentId = ReadInt(binaryReader);
             var currentNodeId = ReadInt(binaryReader);
 
-            if (parentId == -1 || currentNodeId == -1) 
+            if (parentId == -1 || currentNodeId == -1)
                 return;
 
             var node = new IdNode { Id = currentNodeId };
+            _deserializedNodes.Add(currentNodeId, node);
 
             AddChildNodeToParent(parentId, node, tree);
 
@@ -71,7 +87,7 @@ namespace WBSTree.Serializer
                 DeserializeIntoTree(binaryReader, tree);
         }
 
-        private static void AddChildNodeToParent(int parentId, IdNode node, IdTree tree)
+        private void AddChildNodeToParent(int parentId, IdNode node, IdTree tree)
         {
             if (parentId == tree.RootNode.Id)
             {
@@ -79,7 +95,7 @@ namespace WBSTree.Serializer
             }
             else
             {
-                AddChildToNonRootParent(parentId, node, tree);
+                AddChildToNonRootParent(parentId, node);
             }
         }
 
@@ -89,14 +105,21 @@ namespace WBSTree.Serializer
             tree.RootNode.Children.Add(node);
         }
 
-        private static void AddChildToNonRootParent(int parentId, IdNode node, IdTree tree)
+        private void AddChildToNonRootParent(int parentId, IdNode node)
         {
-            var parentNode = tree.FindNode(parentId);
-            if (parentNode == null)
+            //            var parentNode = tree.FindNode(parentId);
+            //            if (parentNode == null)
+            //                return;
+            //
+            //            node.Parent = parentNode;
+            //            parentNode.Children.Add(node);
+
+            var parent = _deserializedNodes.FirstOrDefault(i => i.Key == parentId);
+            if (parent.Value == null)
                 return;
 
-            node.Parent = parentNode;
-            parentNode.Children.Add(node);
+            node.Parent = parent.Value;
+            parent.Value.Children.Add(node);
         }
 
         private static int ReadInt(BinaryReader reader)
