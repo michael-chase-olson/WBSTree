@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WBSTree.Tree
 {
-    public class IdTree
+    public class IdTree : IEquatable<IdTree>
     {
         public IdNode RootNode { get; set; }
 
@@ -24,6 +25,26 @@ namespace WBSTree.Tree
             }
 
             return null;
+        }
+
+        public bool Equals(IdTree other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(RootNode, other.RootNode);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((IdTree) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (RootNode != null ? RootNode.GetHashCode() : 0);
         }
     }
 }

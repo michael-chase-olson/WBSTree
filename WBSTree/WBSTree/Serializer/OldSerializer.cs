@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WBSTree.Tree;
 
 namespace WBSTree.Serializer
 {
-    public class IdTreeSerializer : IBinaryIdTreeSerializer
+    public class OldSerializer
     {
         public byte[] Serialize(IdTree tree)
         {
@@ -56,8 +59,6 @@ namespace WBSTree.Serializer
                 {
                     var rootnode = new IdNode { Id = binaryReader.ReadInt32() };
                     deserializedTree.RootNode = rootnode;
-                    _deserializedNodes.Add(rootnode.Id, rootnode);
-                    //_nodes.Add(rootnode);
                     DeserializeIntoTree(binaryReader, deserializedTree);
 
                 }
@@ -67,7 +68,6 @@ namespace WBSTree.Serializer
             return deserializedTree;
         }
 
-        private readonly Dictionary<int, IdNode> _deserializedNodes = new Dictionary<int, IdNode>();
 
         private void DeserializeIntoTree(BinaryReader binaryReader, IdTree tree)
         {
@@ -80,7 +80,6 @@ namespace WBSTree.Serializer
                 return;
 
             var node = new IdNode { Id = currentNodeId };
-            _deserializedNodes.Add(currentNodeId, node);
 
             AddChildNodeToParent(parentId, node, tree);
 
@@ -108,10 +107,12 @@ namespace WBSTree.Serializer
 
         private void AddChildToNonRootParent(int parentId, IdNode node, IdTree tree)
         {
-            var parent = _deserializedNodes[parentId];
-
-            node.Parent = parent;
-            parent.Children.Add(node);
+                                    var parentNode = tree.FindNode(parentId);
+                                    if (parentNode == null)
+                                        return;
+                        
+                                    node.Parent = parentNode;
+                                    parentNode.Children.Add(node);
         }
 
         private static int ReadInt(BinaryReader reader)

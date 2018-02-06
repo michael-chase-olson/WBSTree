@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\IBinaryIdTreeSerializer.cs" />
     <Compile Include="Serializer\IdTreeSerializer.cs" />
+    <Compile Include="Serializer\OldSerializer.cs" />
     <Compile Include="Tree\IdNode.cs" />
     <Compile Include="Tree\IdTree.cs" />
   </ItemGroup>
